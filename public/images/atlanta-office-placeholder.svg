@@ -1,0 +1,16 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="720" fill="#0A2540"/>
+  <rect y="420" width="1280" height="300" fill="#102A43"/>
+  <rect x="80" y="320" width="140" height="220" fill="#1F3B57"/>
+  <rect x="260" y="260" width="180" height="280" fill="#274865"/>
+  <rect x="500" y="210" width="170" height="330" fill="#315473"/>
+  <rect x="710" y="280" width="160" height="260" fill="#274865"/>
+  <rect x="910" y="240" width="220" height="300" fill="#1F3B57"/>
+  <rect x="160" y="530" width="960" height="4" fill="#166534"/>
+  <text x="80" y="120" fill="#F8F9FA" font-family="Inter, Arial, sans-serif" font-size="46" font-weight="700">
+    Keebler Advisors
+  </text>
+  <text x="80" y="170" fill="#CBD5E1" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="500">
+    Atlanta Headquarters Placeholder Image
+  </text>
+</svg>
