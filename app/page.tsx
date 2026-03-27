@@ -1,16 +1,25 @@
 "use client";
 
+import type { FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
+  BarChart3,
+  Briefcase,
   CheckCircle2,
-  Landmark,
-  LineChart,
-  Network,
-  Scale,
-  TrendingUp,
+  Cloud,
+  Cpu,
+  Factory,
+  FileCheck,
+  FolderKanban,
+  Handshake,
+  HeartPulse,
+  Home,
+  Lightbulb,
+  ShoppingBag,
+  Users,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -18,52 +27,158 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SectionReveal } from "@/components/section-reveal";
 
-const trustMetrics = ["CPA-Led Advisory", "$2M-$200M+ Client Revenue", "Deal-Tested Operators", "Nationwide Engagements"];
+const trustMetrics = [
+  "Target Client Revenue: $2M - $200M+",
+  "Nationwide Engagements",
+  "CPA-Led (Non-Tax & Audit)",
+];
 
 const services = [
   {
-    title: "Fractional / Outsourced CFO",
-    icon: Scale,
+    pillar: "Pillar 1",
+    title: "Fractional CFO & FP&A Advisory",
+    icon: BarChart3,
     description:
-      "Transaction Advisory, Exit Readiness, and Capital & Debt Advisory.",
+      "Practical, ongoing financial leadership to drive operational success.",
     bullets: [
-      "Prepare businesses for sale through EBITDA normalization, financial packaging, and diligence readiness.",
-      "Manage the transaction process from buyer targeting and LOI through due diligence to closing.",
-      "Source cash flow loans, asset-based lending, and growth capital through our lender network.",
+      "Board-level advisory and monthly financial reviews.",
+      "Development of operational KPIs, dashboards, and financial modeling.",
+      "Cash flow forecasting and strategic budgeting.",
+      "Interim leadership during executive transitions.",
     ],
   },
   {
-    title: "Transformation Work",
-    icon: Network,
-    description:
-      "Systems, Processes, and Integration Projects.",
+    pillar: "Pillar 2",
+    title: "Transaction, Capital & Debt Advisory (M&A)",
+    icon: Handshake,
+    description: "Guiding the full lifecycle of a deal with CPA precision.",
     bullets: [
-      "Implement scalable ERP and accounting systems.",
-      "Redesign financial processes for visibility, accuracy, and accountability.",
-      "Support post-acquisition integrations and align reporting, KPIs, and controls.",
+      "Sell/Buy-Side Readiness: Quality of Earnings (QoE) prep, EBITDA normalization, and financial packaging.",
+      "Capital Sourcing: Securing growth capital, cash flow loans, and asset-based debt through our lender network.",
+      "Deal Execution: Managing the process from LOI through due diligence and successful close.",
     ],
   },
   {
-    title: "Traditional Accounting & Finance Services",
-    icon: Landmark,
+    pillar: "Pillar 3",
+    title: "Financial Transformation & Systems (Software)",
+    icon: Cpu,
     description:
-      "Fractional CFO, Accounting Clean-Up, and Transition Work.",
+      "Modernizing infrastructure so your systems tell the exact same story your numbers do.",
     bullets: [
-      "Fractional CFO oversight for growing companies.",
-      "Accounting clean-up, accrual conversions, and GAAP alignment.",
-      "Interim and transition support during leadership or system changes.",
+      "ERP and accounting software selection and implementation.",
+      "Process redesign to overhaul back-office visibility and accuracy.",
+      "Integration of reporting, controls, and KPIs.",
+    ],
+  },
+  {
+    pillar: "Pillar 4",
+    title: "Technical Accounting & Clean-Up",
+    icon: FileCheck,
+    description:
+      "Expert CPA capabilities for complex challenges (Exclusive of Tax & Audit).",
+    bullets: [
+      "Pre-audit readiness and historic accounting clean-up.",
+      "GAAP alignment and complex accrual conversions.",
+      "Structuring charts of accounts for multi-entity or franchised businesses.",
     ],
   },
 ];
 
-const processSteps = [
-  "Readiness - Establish goals, performance baseline, and key value drivers.",
-  "Prepare - Normalize earnings, improve reporting, and strengthen financial controls.",
-  "Go to Market / Raise Capital - Manage buyer targeting, outreach, and capital sourcing.",
-  "Close & Integrate - Support due diligence, working capital negotiations, and post-close integration.",
+const engagementModels = [
+  {
+    title: "Project-Based Execution",
+    icon: FolderKanban,
+    description:
+      "For specific initiatives like an ERP implementation, accounting clean-up, or leading an M&A transaction.",
+  },
+  {
+    title: "Retained / Fractional Leadership",
+    icon: Users,
+    description:
+      "Ongoing monthly partnerships where we serve as your Fractional CFO, lead FP&A, or sit on your advisory board.",
+  },
+  {
+    title: "Advisory & Strategy",
+    icon: Lightbulb,
+    description:
+      "High-level, on-demand consulting for family offices, PE groups, and HNWI evaluating investments or portfolio performance.",
+  },
+];
+
+const ownershipStructures = [
+  "Founder & Privately-Owned Businesses",
+  "Private Equity Portfolio Companies",
+  "Family Offices & High-Net-Worth Individuals (HNWI)",
+  "Independent Sponsors & Search Funds",
+];
+
+const industryExpertise = [
+  {
+    title: "Manufacturing & Distribution",
+    icon: Factory,
+    text: "Navigating complex inventory costing, supply chain financing, and operational KPIs.",
+  },
+  {
+    title: "Software & Technology (SaaS)",
+    icon: Cloud,
+    text: "Managing recurring revenue models, cash burn rates, and capitalized software development costs.",
+  },
+  {
+    title: "Home Services & Franchising",
+    icon: Home,
+    text: "Standardizing multi-entity accounting, geographic roll-ups, and unit-level economics.",
+  },
+  {
+    title: "Healthcare & Medical Practices",
+    icon: HeartPulse,
+    text: "Streamlining back-office financial processes and executing practice consolidations.",
+  },
+  {
+    title: "Consumer Products (CPG) & Retail",
+    icon: ShoppingBag,
+    text: "Optimizing gross margins, vendor negotiations, and omnichannel profitability.",
+  },
+  {
+    title: "Professional & B2B Services",
+    icon: Briefcase,
+    text: "Structuring partnership accounting, utilization metrics, and working capital management.",
+  },
+];
+
+const distinctAdvantages = [
+  {
+    title: "Nearly 20 Years of Experience",
+    body: "Deep leadership spanning day-to-day FP&A, accounting transformations, complex M&A transactions, and capital raises.",
+  },
+  {
+    title: "Scalable, Outcome-Driven Advisory Model",
+    body: "We flex our engagement to match your needs—from monthly retained advisory and KPI reviews to intense, project-based system implementations. Practical CFO leadership aligned to your growth stage.",
+  },
+  {
+    title: "Operational & Data-Backed Strategy",
+    body: "We don't just report the numbers; we interpret them. We tie our strategy to clear, measurable KPIs that drive enterprise value and operational efficiency.",
+  },
+  {
+    title: "Specialized CPA Capabilities (Exclusive of Tax & Audit)",
+    body: "We bring the technical accounting rigor required for historic clean-ups, GAAP alignment, and diligence readiness, functioning as a powerful complement to your existing tax and audit providers.",
+  },
 ];
 
 export default function HomePage() {
+  const handleConsultationSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    const name = String(fd.get("name") ?? "");
+    const email = String(fd.get("email") ?? "");
+    const message = String(fd.get("message") ?? "");
+    const subject = encodeURIComponent("Confidential consultation request");
+    const body = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+    );
+    window.location.href = `mailto:jkeebler@keebleradvisor.com?subject=${subject}&body=${body}`;
+  };
+
   return (
     <main id="home" className="scroll-smooth bg-[#F8F9FA] text-[#111827]">
       {/* Hero Section */}
@@ -96,13 +211,10 @@ export default function HomePage() {
               Nationwide Financial Leadership | Atlanta, Georgia
             </Badge>
             <h1 className="max-w-3xl text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl">
-              Maximizing Value. Transforming Finance. Guiding Transactions.
+              Strategic Financial Leadership &amp; Execution for Every Stage of Growth
             </h1>
             <p className="max-w-2xl text-lg text-slate-200 md:text-xl">
-              Keebler Advisors is a CPA-led advisory firm specializing in transactions, capital and debt advisory, financial transformation, and fractional CFO services. Whether you&apos;re preparing for a sale, raising capital, or modernizing your finance systems, we deliver hands-on, deal-tested expertise.
-            </p>
-            <p className="text-sm text-slate-200">
-              Nationwide Service • Atlanta Headquarters • CPA-Led Engagements
+              Keebler Advisors is a CPA-led advisory firm providing comprehensive financial solutions for Business Owners, Private Equity Groups, Family Offices, and High-Net-Worth Individuals. From monthly fractional CFO oversight and FP&amp;A, to complex M&amp;A transactions and software implementations, we deliver deal-tested expertise without the fixed overhead.
             </p>
           </div>
 
@@ -139,6 +251,9 @@ export default function HomePage() {
                       <Link href="#services">Explore Services</Link>
                     </Button>
                   </div>
+                  <p className="mt-4 border-t border-slate-200 pt-4 text-center text-xs text-slate-500 md:text-sm">
+                    Target Client Revenue: $2M - $200M+  | Nationwide Engagements  | CPA-Led (Non-Tax &amp; Audit)
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -148,7 +263,7 @@ export default function HomePage() {
 
       {/* Trust & Metrics Bar */}
       <section className="border-y border-slate-200 bg-white px-6 py-4 md:px-10">
-        <SectionReveal className="mx-auto grid max-w-7xl gap-2 text-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        <SectionReveal className="mx-auto grid max-w-7xl gap-2 text-center sm:grid-cols-1 md:grid-cols-3">
           {trustMetrics.map((metric) => (
             <p key={metric} className="text-sm font-medium text-slate-700">
               {metric}
@@ -168,15 +283,18 @@ export default function HomePage() {
               Our Core Services
             </h2>
             <p className="text-slate-600">
-              We guide clients through transactions, transformations, and ongoing finance leadership with CPA precision and practical operator experience.
+              Four integrated pillars covering ongoing leadership, transactions, systems, and technical accounting — with CPA precision and deal-tested execution.
             </p>
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2">
             {services.map((service) => (
               <div key={service.title}>
                 <Card className="h-full border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg">
                   <CardHeader className="space-y-4">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-[#166534]">
+                      {service.pillar}
+                    </p>
                     <div className="flex h-11 w-11 items-center justify-center rounded-md bg-[#0A2540]/10 text-[#0A2540]">
                       <service.icon className="h-5 w-5" />
                     </div>
@@ -204,116 +322,155 @@ export default function HomePage() {
         </SectionReveal>
       </section>
 
-      {/* Industries & Client Size */}
+      {/* Client Profiles & Industry Expertise */}
       <section id="value-process" className="bg-[#0A2540] px-6 py-20 text-white md:px-10">
         <SectionReveal className="mx-auto max-w-7xl space-y-10">
           <div className="max-w-3xl space-y-4">
             <Badge className="bg-white/10 text-white hover:bg-white/15">
-              Industries & Client Size
+              Client Profiles &amp; Industry Expertise
             </Badge>
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
               Industry Agnostic Expertise for Growth and Mid-Market Businesses
             </h2>
             <p className="text-slate-200">
-              Keebler Advisors works across industries from home services and distribution to manufacturing, healthcare, and technology. Our engagements scale for clients ranging from $2M to $200M+ in revenue.
+              We partner with diverse ownership groups to drive growth, optimize operations, and execute complex transactions. While our foundational financial principles are industry-agnostic, we bring deep, hands-on experience to a wide array of sectors.
             </p>
           </div>
-          <div className="grid gap-4 md:grid-cols-3">
-            <Card className="border-white/10 bg-white/5 text-white">
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            <Card className="border-white/10 bg-white/5 text-white backdrop-blur">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-base"><LineChart className="h-4 w-4" /> Home Services & Distribution</CardTitle>
+                <CardTitle className="text-lg text-white">Target Revenue</CardTitle>
               </CardHeader>
+              <CardContent>
+                <p className="text-sm text-slate-200">
+                  Scalable engagements for entities generating $2M to $200M+ in annual revenue.
+                </p>
+              </CardContent>
             </Card>
-            <Card className="border-white/10 bg-white/5 text-white">
+            <Card className="border-white/10 bg-white/5 text-white backdrop-blur">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-base"><TrendingUp className="h-4 w-4" /> Manufacturing & Healthcare</CardTitle>
+                <CardTitle className="text-lg text-white">Ownership Structures</CardTitle>
               </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm text-slate-200">
+                  {ownershipStructures.map((item) => (
+                    <li key={item} className="flex gap-2">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
             </Card>
-            <Card className="border-white/10 bg-white/5 text-white">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-base"><Landmark className="h-4 w-4" /> Technology & SaaS</CardTitle>
-              </CardHeader>
-            </Card>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {industryExpertise.map((row) => {
+              const IndustryIcon = row.icon;
+              return (
+              <Card
+                key={row.title}
+                className="border-white/10 bg-white/5 text-white backdrop-blur"
+              >
+                <CardHeader className="space-y-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-md bg-white/10">
+                    <IndustryIcon className="h-4 w-4" />
+                  </div>
+                  <CardTitle className="text-base leading-snug text-white">
+                    {row.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-slate-200">{row.text}</p>
+                </CardContent>
+              </Card>
+              );
+            })}
           </div>
         </SectionReveal>
       </section>
 
-      {/* Our Process */}
-      <section id="testimonials" className="px-6 py-20 md:px-10">
+      {/* Flexible Engagement Models */}
+      <section id="engagement-models" className="px-6 py-20 md:px-10">
         <SectionReveal className="mx-auto max-w-7xl space-y-10">
           <div className="max-w-3xl space-y-4">
             <Badge className="bg-[#0A2540] text-white hover:bg-[#0A2540]">
-              Our Process
+              Flexible Engagement Models
             </Badge>
             <h2 className="text-3xl font-bold tracking-tight text-[#0A2540] md:text-4xl">
-              A Structured Path from Readiness to Close & Integrate
+              We scale our resources up or down based on your exact needs.
             </h2>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
-            {processSteps.map((step, idx) => (
-              <Card key={step} className="h-full border-slate-200 bg-white">
-                <CardContent className="space-y-4 pt-6">
-                  <Badge className="bg-[#0A2540]/10 text-[#0A2540] hover:bg-[#0A2540]/10">
-                    Step {idx + 1}
-                  </Badge>
-                  <p className="text-sm leading-relaxed text-slate-700">{step}</p>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="grid gap-6 md:grid-cols-3">
+            {engagementModels.map((model) => {
+              const ModelIcon = model.icon;
+              return (
+                <Card
+                  key={model.title}
+                  className="h-full border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
+                >
+                  <CardHeader className="space-y-4">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-md bg-[#0A2540]/10 text-[#0A2540]">
+                      <ModelIcon className="h-5 w-5" />
+                    </div>
+                    <CardTitle className="text-lg text-[#0A2540]">
+                      {model.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm leading-relaxed text-slate-600">
+                      {model.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </SectionReveal>
       </section>
 
       {/* Why Keebler Advisors Section */}
       <section id="why-keebler" className="bg-[#0A2540] px-6 py-20 text-white md:px-10">
-        <SectionReveal className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-          <div className="space-y-4">
+        <SectionReveal className="mx-auto max-w-7xl space-y-10">
+          <div className="max-w-4xl space-y-4">
             <Badge className="bg-white/10 text-white hover:bg-white/15">
               Why Keebler Advisors
             </Badge>
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
               CFO-Level Strategy. CPA Precision. Deal-Tested Execution.
             </h2>
-            <p className="text-slate-200">
+            <p className="text-lg text-slate-200">
               Founded by Justin Keebler, CPA, a private equity-backed CFO and operator, Keebler Advisors blends financial rigor with operational insight to help entrepreneurs, operators, and investors navigate pivotal moments.
             </p>
-            <ul className="space-y-3 text-sm text-slate-100">
-              <li className="flex items-start gap-2">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 text-emerald-300" />
-                Practical CFO leadership aligned to your growth stage
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 text-emerald-300" />
-                Data-backed strategy tied to clear, measurable KPIs
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 text-emerald-300" />
-                Exit planning discipline that increases buyer confidence
-              </li>
-            </ul>
+            <p className="text-lg text-slate-200">
+              Whether you need a trusted advisor on your board, a fractional CFO to drive monthly performance, or an expert to lead a complex transaction, we provide the exact horsepower you need.
+            </p>
           </div>
-          <Card className="border-white/10 bg-white/5 text-white backdrop-blur">
-            <CardHeader>
-              <CardTitle className="text-white">
-                Outcome-Driven Advisory Model
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4 text-sm text-slate-100">
-              <div className="rounded-md border border-white/10 bg-white/10 p-4">
-                <p className="font-medium text-white">Nearly 20 Years of Experience</p>
-                <p className="text-slate-200">Deep leadership in accounting transformation, M&A transactions, and capital raises.</p>
-              </div>
-              <div className="rounded-md border border-white/10 bg-white/10 p-4">
-                <p className="font-medium text-white">Scalable Advisory Model</p>
-                <p className="text-slate-200">Flexible, project-based expertise that scales with your transaction or transformation needs.</p>
-              </div>
-              <div className="rounded-md border border-white/10 bg-white/10 p-4">
-                <p className="font-medium text-white">Operator Mindset</p>
-                <p className="text-slate-200">Hands-on execution that aligns your systems, reporting, and deal narrative.</p>
-              </div>
-            </CardContent>
-          </Card>
+
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold tracking-tight text-white md:text-2xl">
+              Our Distinct Advantages:
+            </h3>
+            <div className="grid gap-4 md:grid-cols-2">
+              {distinctAdvantages.map((item) => (
+                <Card
+                  key={item.title}
+                  className="border-white/10 bg-white/5 text-white backdrop-blur"
+                >
+                  <CardHeader>
+                    <CardTitle className="text-base leading-snug text-white md:text-lg">
+                      {item.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm leading-relaxed text-slate-200">{item.body}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
         </SectionReveal>
       </section>
 
@@ -324,15 +481,15 @@ export default function HomePage() {
             <CardHeader>
               <Badge className="w-fit bg-[#0A2540] text-white hover:bg-[#0A2540]">About Keebler Advisors</Badge>
               <CardTitle className="pt-2 text-3xl text-[#0A2540] md:text-4xl">
-                Strategic Finance Advisory for Pivotal Business Moments
+                Strategic Financial Leadership for Every Stage of Your Journey
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6 text-slate-700">
               <p>
-                Keebler Advisors helps entrepreneurs, operators, and investors navigate pivotal moments - selling a business, raising capital, or transforming finance operations.
+                Keebler Advisors partners with entrepreneurs, private equity groups, family offices, and independent sponsors to drive operational excellence and navigate complex financial landscapes. Founded by Justin Keebler, CPA, a private equity-backed CFO and operator, the firm bridges the gap between high-level strategy, deep operational insight, and technical accounting execution.
               </p>
               <p>
-                Founded by Justin Keebler, CPA, a private equity-backed CFO and operator, the firm blends financial rigor with hands-on operational insight. We have scaled companies, closed acquisitions, raised capital, and integrated businesses up to $200M+.
+                Whether you need ongoing board-level advisory, a fractional CFO to build out your FP&amp;A function, or a steady hand to lead an acquisition or system transformation, we deliver the exact capabilities you need. We have scaled companies, led complex accounting integrations, closed acquisitions, and raised capital for businesses generating up to $200M+ in revenue.
               </p>
               <div className="grid gap-6 rounded-lg border border-slate-200 p-5 md:grid-cols-[220px_1fr] md:items-start">
                 <Image
@@ -342,15 +499,17 @@ export default function HomePage() {
                   height={260}
                   className="w-full max-w-[220px] rounded-lg border border-slate-200 object-cover"
                 />
-                <div className="space-y-3">
-                  <p className="font-semibold text-[#0A2540]">Justin Keebler, CPA - Managing Member</p>
+                <div className="space-y-4">
+                  <p className="font-semibold text-[#0A2540]">Justin Keebler, CPA — Managing Member</p>
                   <p>
-                    A finance and operations executive with nearly 20 years of experience bridging accounting, operational IT systems, and high-stakes transactions. Justin has led accounting transformations, capital raises, and M&A initiatives across multiple industries.
+                    Justin is a veteran finance and operations executive with nearly 20 years of experience bridging complex accounting, FP&amp;A, operational IT systems, and high-stakes deal-making. He acts as a strategic partner for diverse ownership groups, bringing CPA precision and a deal-tested operator&apos;s perspective to every engagement.
                   </p>
                   <p>
-                    His pragmatic, data-driven approach helps clients create enterprise value through clarity and execution.
+                    Throughout his career, Justin has led full-scale accounting transformations, built robust financial reporting models, managed capital raises, and guided M&amp;A initiatives across a wide array of industries. His pragmatic, data-driven approach helps clients create long-term enterprise value through financial clarity and disciplined execution.
                   </p>
-                  <p className="text-sm">Email: jkeebler@keebleradvisor.com | Phone: 678-793-1690</p>
+                  <Button asChild className="w-full bg-[#166534] text-white hover:bg-[#14532d] sm:w-auto">
+                    <Link href="#contact">Book a Confidential Consultation</Link>
+                  </Button>
                 </div>
               </div>
             </CardContent>
@@ -359,7 +518,7 @@ export default function HomePage() {
       </section>
 
       {/* Our Promise Strip */}
-      <section id="contact" className="bg-gradient-to-r from-[#0A2540] via-[#113656] to-[#0A2540] px-6 py-14 text-white md:px-10">
+      <section className="bg-gradient-to-r from-[#0A2540] via-[#113656] to-[#0A2540] px-6 py-14 text-white md:px-10">
         <SectionReveal className="mx-auto grid max-w-7xl gap-8 md:grid-cols-2 md:gap-10">
           <div className="space-y-3">
             <p className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-300">
@@ -382,6 +541,71 @@ export default function HomePage() {
               Our approach blends CPA precision with real-world operator experience, helping you anticipate questions, defend valuation, and execute confidently.
             </p>
           </div>
+        </SectionReveal>
+      </section>
+
+      {/* Contact — consultation form (anchor #contact) */}
+      <section id="contact" className="border-t border-slate-200 bg-white px-6 py-16 md:px-10">
+        <SectionReveal className="mx-auto max-w-xl space-y-6">
+          <div className="text-center">
+            <Badge className="bg-[#0A2540] text-white hover:bg-[#0A2540]">Contact</Badge>
+            <h2 className="mt-3 text-2xl font-bold tracking-tight text-[#0A2540] md:text-3xl">
+              Book a Confidential Consultation
+            </h2>
+            <p className="mt-2 text-sm text-slate-600">
+              Share a brief note and we will follow up to schedule your call.
+            </p>
+          </div>
+          <form
+            onSubmit={handleConsultationSubmit}
+            className="space-y-4 text-left"
+          >
+            <div>
+              <label htmlFor="contact-name" className="mb-1 block text-sm font-medium text-slate-700">
+                Name
+              </label>
+              <input
+                id="contact-name"
+                name="name"
+                type="text"
+                required
+                autoComplete="name"
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-[#0A2540] focus:outline-none focus:ring-1 focus:ring-[#0A2540]"
+              />
+            </div>
+            <div>
+              <label htmlFor="contact-email" className="mb-1 block text-sm font-medium text-slate-700">
+                Email
+              </label>
+              <input
+                id="contact-email"
+                name="email"
+                type="email"
+                required
+                autoComplete="email"
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-[#0A2540] focus:outline-none focus:ring-1 focus:ring-[#0A2540]"
+              />
+            </div>
+            <div>
+              <label htmlFor="contact-message" className="mb-1 block text-sm font-medium text-slate-700">
+                How can we help?
+              </label>
+              <textarea
+                id="contact-message"
+                name="message"
+                rows={5}
+                required
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-[#0A2540] focus:outline-none focus:ring-1 focus:ring-[#0A2540]"
+                placeholder="Brief context for your consultation request"
+              />
+            </div>
+            <Button
+              type="submit"
+              className="w-full bg-[#166534] text-white hover:bg-[#14532d] sm:w-auto"
+            >
+              Book a Confidential Consultation
+            </Button>
+          </form>
         </SectionReveal>
       </section>
 
